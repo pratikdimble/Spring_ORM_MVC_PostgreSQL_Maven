@@ -28,21 +28,46 @@ public class UserController {
 
 	@RequestMapping(value="/")
 	public String landing(HttpServletRequest req,HttpServletResponse res){
-		return "/login_form";
+		return "/register";
 	}//landing() close
-	@RequestMapping(value="login", method = RequestMethod.POST)
+	@RequestMapping(value="register", method = RequestMethod.POST)
 	   public ModelAndView showData(HttpServletRequest req,HttpServletResponse res){
 		   //get the parameter values and parse if needed
 		   String name=req.getParameter("name");
+		   String password=req.getParameter("password");
 		   long contactNumber=Long.parseLong(req.getParameter("contact")); 
 		   Employee emp=new Employee();
-			emp.setUserName(name);emp.setContactNumber(contactNumber);
+			emp.setUserName(name);emp.setContactNumber(contactNumber);emp.setPassword(password);
 			int id=empService.saveorUpdate(emp);
 			ModelAndView mv=new ModelAndView();
 			mv.setViewName("display");
 			mv.addObject("id",id);
 			return mv;
 		}//showData() ends
+	
+	@RequestMapping(value = "/show", method = RequestMethod.GET)
+	public ModelAndView user(){		
+		ModelAndView model=new ModelAndView("/newuser");
+		List<Employee> emps = empService.getEmployee();
+		model.addObject("emps", emps);
+		return model;		
+	}
+	
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	public ModelAndView delete(@PathVariable ("id") int id){
+		
+		empService.delete(id);
+		return new ModelAndView("redirect:/show");
+
+	}
+	
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	public ModelAndView add(){		
+		ModelAndView model=new ModelAndView("/login_form");
+		/*Employee emp=new Employee();
+		model.addObject("userForm",emp);*/
+		return model;		
+	}
 	/*@RequestMapping(value = "/save", method = RequestMethod.POST)
 	public ModelAndView saveEmp(@ModelAttribute("userForm") Employee emp){
 		

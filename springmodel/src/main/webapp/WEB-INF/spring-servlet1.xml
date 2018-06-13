@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+     http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/mvc/spring-util.xsd
+         http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+        
+        <mvc:annotation-driven />
+        
+	<context:component-scan base-package="org.demo.*" />
+	
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	
+	
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	<context:property-placeholder location = "classpath:database.properties"/>
+	<bean id= "dataSource" class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value = "${database.driver}"></property>
+		<property name="url" value = "${database.url}"></property>
+		<property name="username" value = "${database.user}"></property>
+		<property name="password" value = "${database.password}"></property>
+		
+	</bean>
+	<bean id = "sessionFactory" class = "org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name = "dataSource" ref = "dataSource"></property>
+		<property name = "annotatedClasses">
+		<list>
+			<value>org.demo.model.Employee</value>
+		</list>
+		</property>
+	   <property name = "hibernateProperties">
+	   		<props>
+	   			<prop key = "hibernate.dialect">${database.dialect}</prop>
+	   			<prop key = "hibernate.hbm2ddl.auto">update</prop>
+	   			<prop key = "hibernate.show_sql">true</prop>
+	   		</props>
+	   </property>
+	</bean>
+	<tx:annotation-driven/>
+		<bean id = "transactionManager" class = "org.springframework.orm.hibernate5.HibernateTransactionManager">
+			<property name="sessionFactory" ref = "sessionFactory"></property>
+		</bean>
+</beans>

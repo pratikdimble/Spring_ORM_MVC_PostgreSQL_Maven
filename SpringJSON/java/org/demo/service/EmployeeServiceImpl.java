@@ -40,4 +40,8 @@ public Employee getEmployee(int empId) {
 	return empdao.getEmployee(empId);
 }
 
+@Override
+public List<Employee> getAllEmployee() {
+	return empdao.getAllEmployee();
+}
 }

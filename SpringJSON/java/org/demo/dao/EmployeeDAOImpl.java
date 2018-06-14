@@ -1,14 +1,11 @@
 package org.demo.dao;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.demo.model.Employee;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 @Repository("EmployeeDao")
@@ -33,7 +30,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 @Override
 public Employee getEmployee(int id) {
 	Employee emp=(Employee) getSession().get(Employee.class,id);
-	System.out.println("\t***In Get");
+	System.out.println("\t***From Get");
 	return emp;
 }
 	//method for delete the record
@@ -50,5 +47,14 @@ public int update(Employee emp) {
 	System.out.println(emp.getName());
 		//getSession().update(e);
 	return e.getId();
+	}
+
+//Get All Data
+@Override
+public List<Employee> getAllEmployee() {
+	
+	Criteria criteria = getSession().createCriteria(Employee.class);
+	List employees = criteria.list();
+	return employees;
 }
 }

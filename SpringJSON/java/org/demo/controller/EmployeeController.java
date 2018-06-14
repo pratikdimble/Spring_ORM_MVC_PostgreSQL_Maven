@@ -64,11 +64,7 @@ public class EmployeeController {
 		@RequestMapping(value = EmpRestURIConstants.GET_ALL_EMP, method = RequestMethod.GET)
 		public @ResponseBody List<Employee> getAllEmployees() {
 			logger.info("Start getAllEmployees.");
-			List<Employee> emps = new ArrayList<Employee>();
-			Set<Integer> empIdKeys = empData.keySet();
-			for(Integer i : empIdKeys){
-				emps.add(empData.get(i));
-			}
+			List<Employee> emps =empService.getAllEmployee();
 			return emps;
 		}
 		
@@ -78,9 +74,6 @@ public class EmployeeController {
 			emp.setCreatedDate(new Date());
 			System.out.println("\t*******"+emp.getId()+"\t"+emp.getName());
 			int id=empService.saveorUpdate(emp);
-			//empData.put(emp.getId(), emp);
-//			empData.put(emp.getName(), emp);
-			
 			return emp;
 		}
 		

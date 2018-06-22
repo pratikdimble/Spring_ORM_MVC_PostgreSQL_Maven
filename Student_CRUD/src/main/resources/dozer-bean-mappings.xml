@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<!-- <configuration> <date-format>dd-MM-yyyy HH:mm:ss</date-format> </configuration> -->
+
+
+	<mapping map-id="studentDTO_to_student">
+		<class-a>org.demo.student.model.Student</class-a>
+		<class-b>org.demo.student.dto.StudentDTO</class-b>
+	</mapping>
+	<!-- Migration End -->
+</mappings>
